@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: IntegrecaoDB2
+
+  jpa:
+    show-sql: true
+    open-in-view: true
+    properties:
+      hibernate:
+
+        enable_lazy_load_no_trans: true
+        dialect: org.hibernate.dialect.DB2400Dialect
+        cache:
+          use_second_level_cache: true
+          region.factory_class: jcache
+          use_query_cache: true
+        
+  datasource:
+    url: jdbc:as400://192.168.28.11;libraries=LIB001;socket timeout=30000;thread used=false;transaction isolation=read commited;translate binary=true;date format=iso;prompt=false
+    username: gbrito
+    password: kdb321
+    driver-class-name: com.ibm.as400.access.AS400JDBCDriver
+    hikari:
+      connection-timeout: 10000 #maximum number of milliseconds that a client will wait for a connection
+      minimum-idle: 2 #minimum number of idle connections maintained by HikariCP in a connection pool
+      maximum-pool-size: 10 #maximum pool size
+      idle-timeout: 20000 #maximum idle time for connection
+      max-lifetime: 30000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+      connection-test-query: values 1
+
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+
+logging:
+  level:
+    root: 'INFO'
+    org.apache: 'ERROR'
+    com.netflix: 'ERROR'
+    org.springframework: 'ERROR'
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: false
